@@ -1,0 +1,20 @@
+#board_wrapper {
+  width: 30vw;
+  height: 30vw;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#board {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4%;
+  grid-template-rows: 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4%;
+  box-shadow: 0px 20px 100px grey;
+}
+
+.space {
+  border: 0.1px solid rgb(129, 129, 129);
+}
