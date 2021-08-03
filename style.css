@@ -18,3 +18,15 @@
 .space {
   border: 0.1px solid rgb(129, 129, 129);
 }
+
+.end_node_class {
+  background-color: blue;
+}
+
+.start_node_class {
+  background-color: rgb(7, 152, 248);
+}
+
+.open_node_class {
+  background-color: greenyellow;
+}
