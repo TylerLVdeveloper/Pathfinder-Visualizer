@@ -144,8 +144,8 @@ let lowestCostNode;
 document.getElementById(endNode).classList.add(endNodeClass);
 document.getElementById(startNode.coord).classList.add(startNodeClass);
 
-const openNodes = [];
-const closedNodes = [];
+let openNodes = [];
+let closedNodes = [];
 
 const calcHCost = function(node){
    const splitCoordsEndNode = endNode.slice().split('-');
@@ -164,8 +164,7 @@ const calcHCost = function(node){
 
 const calcNeighborNodes = function(currentNode){
 
-   closedNodes.push(currentNode);
-   document.getElementById(currentNode.coord).classList.add(closedNodeClass);
+
    const splitCoords = currentNode.coord.slice().split('-');
    const yCoord = splitCoords[0];
    const xCoord = splitCoords[1];
@@ -174,7 +173,8 @@ const calcNeighborNodes = function(currentNode){
    // calculate north neighbor coordinates
    const northCoord = ((+yCoord + 1).toString() + '-' + xCoord);
    
-   console.log(!(closedNodes.some((node)=>node.coord === northCoord)))
+  // closedNodes.forEach((node)=> console.log(node));
+
    if(!(closedNodes.some((node)=>node.coord === northCoord)) && !(openNodes.some((node)=>node.coord === northCoord))){
         // calculate north neighbor H cost
       const northHCost = calcHCost(northCoord);
@@ -183,9 +183,8 @@ const calcNeighborNodes = function(currentNode){
       // Mark node green
       document.getElementById(`${northNeighbor.coord}`).classList.add(openNodeClass);
 
-      console.log(northNeighbor);
-
       openNodes.push(northNeighbor);
+
    }
    /////////////////////////////////////////////////////////////////// NORTH-EAST NEIGHBOR NODE
    const northEastCoord = (+yCoord + 1).toString() + '-' + (+xCoord + 1).toString();
@@ -193,7 +192,6 @@ const calcNeighborNodes = function(currentNode){
       const northEastHCost = calcHCost(northEastCoord);
       const northEastNeighbor = new NodeCl(northEastCoord, (currentNode.gCost + 14), northEastHCost, currentNode.coord);
       document.getElementById(`${northEastNeighbor.coord}`).classList.add(openNodeClass);
-      console.log(northEastNeighbor);
       openNodes.push(northEastNeighbor);
    }
    /////////////////////////////////////////////////////////////////// EAST NEIGHBOR NODE
@@ -202,7 +200,6 @@ const calcNeighborNodes = function(currentNode){
       const eastHCost = calcHCost(eastCoord);
       const eastNeighbor = new NodeCl(eastCoord, (currentNode.gCost + 10), eastHCost, currentNode.coord);
       document.getElementById(`${eastNeighbor.coord}`).classList.add(openNodeClass);
-      console.log(eastNeighbor);
       openNodes.push(eastNeighbor);
    }
    /////////////////////////////////////////////////////////////////// SOUTH-EAST NEIGHBOR NODE
@@ -211,7 +208,6 @@ const calcNeighborNodes = function(currentNode){
       const southEastHCost = calcHCost(southEastCoord);
       const southEastNeighbor = new NodeCl(southEastCoord, (currentNode.gCost + 14), southEastHCost, currentNode.coord);
       document.getElementById(`${southEastNeighbor.coord}`).classList.add(openNodeClass);
-      console.log(southEastNeighbor);
       openNodes.push(southEastNeighbor);
    }
    /////////////////////////////////////////////////////////////////// SOUTH NEIGHBOR NODE
@@ -220,7 +216,6 @@ const calcNeighborNodes = function(currentNode){
       const southHCost = calcHCost(southCoord);
       const southNeighbor = new NodeCl(southCoord, (currentNode.gCost + 10), southHCost, currentNode.coord);
       document.getElementById(`${southNeighbor.coord}`).classList.add(openNodeClass);
-      console.log(southNeighbor);
       openNodes.push(southNeighbor);
    }
    /////////////////////////////////////////////////////////////////// SOUTH-WEST NEIGHBOR NODE
@@ -229,7 +224,6 @@ const calcNeighborNodes = function(currentNode){
       const southWestHCost = calcHCost(southWestCoord);
       const southWestNeighbor = new NodeCl(southWestCoord, (currentNode.gCost + 14), southWestHCost, currentNode.coord);
       document.getElementById(`${southWestNeighbor.coord}`).classList.add(openNodeClass);
-      console.log(southWestNeighbor);  
       openNodes.push(southWestNeighbor); 
    }
    /////////////////////////////////////////////////////////////////// WEST NEIGHBOR NODE
@@ -238,7 +232,6 @@ const calcNeighborNodes = function(currentNode){
       const westHCost = calcHCost(westCoord);
       const westNeighbor = new NodeCl(westCoord, (currentNode.gCost + 10), westHCost, currentNode.coord);
       document.getElementById(`${westNeighbor.coord}`).classList.add(openNodeClass);
-      console.log(westNeighbor);
       openNodes.push(westNeighbor);
    }
    /////////////////////////////////////////////////////////////////// NORTH-WEST NEIGHBOR NODE
@@ -246,17 +239,23 @@ const calcNeighborNodes = function(currentNode){
    if(!(closedNodes.some((node)=>node.coord === northWestCoord)) && !(openNodes.some((node)=>node.coord === northWestCoord))){
       const northWestHCost = calcHCost(northWestCoord);
       const northWestNeighbor = new NodeCl(northWestCoord, (currentNode.gCost + 14), northWestHCost, currentNode.coord);
-      document.getElementById(`${northWestNeighbor.coord}`).classList.add(openNodeClass);
-      console.log(northWestNeighbor);    
+      document.getElementById(`${northWestNeighbor.coord}`).classList.add(openNodeClass);  
       openNodes.push(northWestNeighbor);  
    }
 
    lowestCostNode = openNodes[0];
    openNodes.forEach((node)=> {if(node.fCost < lowestCostNode.fCost) lowestCostNode = node});
-   console.log('lowest:',lowestCostNode);
 
-   openNodes.pop(lowestCostNode);
+   console.log(lowestCostNode.coord);
+   openNodes = openNodes.filter(node=>node.coord !== lowestCostNode.coord);
    document.getElementById(lowestCostNode.coord).classList.remove(openNodeClass);
+
+   closedNodes.push(currentNode);
+   document.getElementById(currentNode.coord).classList.add(closedNodeClass);
+
+  
+
+   
 }
 
 calcNeighborNodes(startNode);
@@ -266,3 +265,15 @@ calcNeighborNodes(lowestCostNode);
 calcNeighborNodes(lowestCostNode);
 calcNeighborNodes(lowestCostNode);
 calcNeighborNodes(lowestCostNode);
+calcNeighborNodes(lowestCostNode);
+calcNeighborNodes(lowestCostNode);
+calcNeighborNodes(lowestCostNode);
+calcNeighborNodes(lowestCostNode);
+calcNeighborNodes(lowestCostNode);
+calcNeighborNodes(lowestCostNode);
+calcNeighborNodes(lowestCostNode);
+calcNeighborNodes(lowestCostNode);
+calcNeighborNodes(lowestCostNode);
+calcNeighborNodes(lowestCostNode);
+
+
