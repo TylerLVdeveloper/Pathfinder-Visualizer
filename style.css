@@ -17,6 +17,7 @@
 
 .space {
   border: 0.1px solid rgb(129, 129, 129);
+  border-radius: 5px;
 }
 
 .end_node_class {
@@ -33,4 +34,12 @@
 
 .closed_node_class {
   background-color: red;
+}
+
+.wall_node_class {
+  background-color: black;
+}
+
+.final_path_node_class {
+  background-color: darkorchid;
 }
