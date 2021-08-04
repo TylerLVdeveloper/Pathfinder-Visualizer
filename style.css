@@ -30,3 +30,7 @@
 .open_node_class {
   background-color: greenyellow;
 }
+
+.closed_node_class {
+  background-color: red;
+}
