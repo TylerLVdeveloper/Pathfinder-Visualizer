@@ -174,8 +174,8 @@ const retraceSteps = function(){
 const drawPath = function(){
   while(lowestCostNode.coord !== startNode.coord){
     if(lowestCostNode.coord !== endNode){
-    document.getElementById(lowestCostNode.coord)?.classList.remove(closedNodeClass);
-    document.getElementById(lowestCostNode.coord)?.classList.add(finalPathNodeClass);
+    document.getElementById(lowestCostNode.coord).classList.remove(closedNodeClass);
+    document.getElementById(lowestCostNode.coord).classList.add(finalPathNodeClass);
     }
     lowestCostNode = closedNodes.find(node=>node.coord === lowestCostNode.prevNode);
   } 
@@ -187,12 +187,12 @@ const testFunction = function(nodeChosen){
       openNodes = openNodes.filter((n, index)=>index !== i)
       openNodes.push(nodeChosen);
       // Mark node green
-      document.getElementById(`${nodeChosen.coord}`)?.classList.add(openNodeClass);
+      document.getElementById(`${nodeChosen.coord}`).classList.add(openNodeClass);
     }})
     if(!(openNodes.some((node)=>node.coord === nodeChosen.coord))){
       openNodes.push(nodeChosen);
       // Mark node green
-      document.getElementById(`${nodeChosen.coord}`)?.classList.add(openNodeClass);
+      document.getElementById(`${nodeChosen.coord}`).classList.add(openNodeClass);
     }
 }
 const calcNeighborNodes = function(currentNode){
@@ -205,56 +205,56 @@ const calcNeighborNodes = function(currentNode){
    /////////////////////////////////////////////////////////////////// NORTH NEIGHBOR NODE
    // calculate north neighbor coordinates
    const northCoord = ((+yCoord + 1).toString() + '-' + xCoord);
-   if(!(closedNodes.some((node)=>node.coord === northCoord)) && !(wallNodes.some((node)=>node === northCoord))){     
+   if(!(closedNodes.some((node)=>node.coord === northCoord)) && !(wallNodes.some((node)=>node === northCoord)) && (document.getElementById(northCoord))){     
       const northHCost = calcHCost(northCoord);
       const northNeighbor = new NodeCl(northCoord, (currentNode.gCost + 10), northHCost, currentNode.coord);
       testFunction(northNeighbor);
    }
    /////////////////////////////////////////////////////////////////// NORTH-EAST NEIGHBOR NODE
    const northEastCoord = (+yCoord + 1).toString() + '-' + (+xCoord + 1).toString();
-   if(!(closedNodes.some((node)=>node.coord === northEastCoord)) && !(wallNodes.some((node)=>node === northEastCoord))){
+   if(!(closedNodes.some((node)=>node.coord === northEastCoord)) && !(wallNodes.some((node)=>node === northEastCoord)) && (document.getElementById(northEastCoord))){
       const northEastHCost = calcHCost(northEastCoord);
       const northEastNeighbor = new NodeCl(northEastCoord, (currentNode.gCost + 14), northEastHCost, currentNode.coord);
       testFunction(northEastNeighbor);
    }
    /////////////////////////////////////////////////////////////////// EAST NEIGHBOR NODE
    const eastCoord = yCoord + '-' + (+xCoord + 1).toString();
-   if(!(closedNodes.some((node)=>node.coord === eastCoord)) && !(wallNodes.some((node)=>node === eastCoord))){
+   if(!(closedNodes.some((node)=>node.coord === eastCoord)) && !(wallNodes.some((node)=>node === eastCoord)) && (document.getElementById(eastCoord))){
       const eastHCost = calcHCost(eastCoord);
       const eastNeighbor = new NodeCl(eastCoord, (currentNode.gCost + 10), eastHCost, currentNode.coord);
       testFunction(eastNeighbor);
    }
    /////////////////////////////////////////////////////////////////// SOUTH-EAST NEIGHBOR NODE
    const southEastCoord = (+yCoord - 1).toString() + '-' + (+xCoord + 1).toString();
-   if(!(closedNodes.some((node)=>node.coord === southEastCoord)) && !(wallNodes.some((node)=>node === southEastCoord))){
+   if(!(closedNodes.some((node)=>node.coord === southEastCoord)) && !(wallNodes.some((node)=>node === southEastCoord)) && (document.getElementById(southEastCoord))){
       const southEastHCost = calcHCost(southEastCoord);
       const southEastNeighbor = new NodeCl(southEastCoord, (currentNode.gCost + 14), southEastHCost, currentNode.coord);
       testFunction(southEastNeighbor);
    }
    /////////////////////////////////////////////////////////////////// SOUTH NEIGHBOR NODE
    const southCoord = (+yCoord - 1).toString() + '-' + +xCoord;
-   if(!(closedNodes.some((node)=>node.coord === southCoord)) && !(wallNodes.some((node)=>node === southCoord))){
+   if(!(closedNodes.some((node)=>node.coord === southCoord)) && !(wallNodes.some((node)=>node === southCoord)) && (document.getElementById(southCoord))){
       const southHCost = calcHCost(southCoord);
       const southNeighbor = new NodeCl(southCoord, (currentNode.gCost + 10), southHCost, currentNode.coord);
       testFunction(southNeighbor);
    }
    /////////////////////////////////////////////////////////////////// SOUTH-WEST NEIGHBOR NODE
    const southWestCoord = (+yCoord - 1).toString() + '-' + (+xCoord - 1).toString();
-   if(!(closedNodes.some((node)=>node.coord === southWestCoord)) && !(wallNodes.some((node)=>node === southWestCoord))){
+   if(!(closedNodes.some((node)=>node.coord === southWestCoord)) && !(wallNodes.some((node)=>node === southWestCoord)) && (document.getElementById(southWestCoord))){
       const southWestHCost = calcHCost(southWestCoord);
       const southWestNeighbor = new NodeCl(southWestCoord, (currentNode.gCost + 14), southWestHCost, currentNode.coord);
       testFunction(southWestNeighbor);
    }
    /////////////////////////////////////////////////////////////////// WEST NEIGHBOR NODE
    const westCoord = yCoord + '-' + (+xCoord - 1).toString();
-   if(!(closedNodes.some((node)=>node.coord === westCoord)) && !(wallNodes.some((node)=>node === westCoord))){
+   if(!(closedNodes.some((node)=>node.coord === westCoord)) && !(wallNodes.some((node)=>node === westCoord)) && (document.getElementById(westCoord))){
       const westHCost = calcHCost(westCoord);
       const westNeighbor = new NodeCl(westCoord, (currentNode.gCost + 10), westHCost, currentNode.coord);
       testFunction(westNeighbor);
    }
    /////////////////////////////////////////////////////////////////// NORTH-WEST NEIGHBOR NODE
    const northWestCoord = (+yCoord + 1).toString() + '-' + (+xCoord - 1).toString();
-   if(!(closedNodes.some((node)=>node.coord === northWestCoord)) && !(wallNodes.some((node)=>node === northWestCoord))){
+   if(!(closedNodes.some((node)=>node.coord === northWestCoord)) && !(wallNodes.some((node)=>node === northWestCoord)) && (document.getElementById(northWestCoord))){
       const northWestHCost = calcHCost(northWestCoord);
       const northWestNeighbor = new NodeCl(northWestCoord, (currentNode.gCost + 14), northWestHCost, currentNode.coord);
       testFunction(northWestNeighbor);
@@ -264,11 +264,11 @@ const calcNeighborNodes = function(currentNode){
    openNodes.forEach((node)=> {if(node.fCost < lowestCostNode.fCost) lowestCostNode = node});
 
    openNodes = openNodes.filter(node=>node.coord !== lowestCostNode.coord);
-   document.getElementById(lowestCostNode.coord)?.classList.remove(openNodeClass);
+   document.getElementById(lowestCostNode.coord).classList.remove(openNodeClass);
 
    closedNodes.push(currentNode);
    if(currentNode !== startNode){
-   document.getElementById(currentNode.coord)?.classList.add(closedNodeClass);
+   document.getElementById(currentNode.coord).classList.add(closedNodeClass);
    }
 
   if(lowestCostNode.hCost !== 0) setTimeout(startFunction, 40);
