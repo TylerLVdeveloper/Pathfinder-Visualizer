@@ -18,6 +18,7 @@
 .space {
   border: 0.1px solid rgb(129, 129, 129);
   border-radius: 5px;
+  transition: all .4s;
 }
 
 .end_node_class {
