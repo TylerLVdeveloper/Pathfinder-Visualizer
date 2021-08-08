@@ -38,7 +38,7 @@
 }
 
 .wall_node_class {
-  background-color: black;
+  background-color: rgb(46, 46, 46);
 }
 
 .final_path_node_class {

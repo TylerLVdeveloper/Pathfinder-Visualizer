@@ -138,13 +138,13 @@ const closedNodeClass = 'closed_node_class';
 const wallNodeClass = 'wall_node_class';
 const finalPathNodeClass = 'final_path_node_class';
 
-let endNode = "25-1";
+let endNode = "21-4";
 const startNode = new NodeCl("3-8", 0, 0, 'none');
 let lowestCostNode;
 
 let openNodes = [];
 let closedNodes = [];
-let wallNodes = ["10-1", "10-2","10-3", "10-4", "10-5", "10-6", "10-7", "10-8", "10-9", "10-10", "10-11", "10-12", "12-5", "12-6", "12-7", "12-8", "12-9", "12-10", "12-11", "12-12", "12-13", "12-14", "12-15", "15-3", "15-4", "15-5", "15-6", "15-7","20-2", "20-3", "20-4", "20-5", "20-6", "20-7", "20-8"];
+let wallNodes = ["10-1", "10-2", "10-3", "10-4", "10-5", "10-6", "10-7", "10-8", "10-10", "10-11", "10-12", "10-13", "10-14", "10-15", "10-16", "10-17", "10-18", "10-19", "10-20", "10-21", "10-22", "10-23", "10-24", "10-25", "12-3", "12-4", "12-5", "12-6", "12-7", "12-8", "12-9", "12-10", "12-11", "12-12", "12-13", "12-14", "12-15", "15-1", "15-2",  "15-5", "15-6", "15-7","20-2", "20-3", "20-4", "20-5", "20-6", "20-7", "20-8"];
 
 document.getElementById(endNode).classList.add(endNodeClass);
 document.getElementById(startNode.coord).classList.add(startNodeClass);
@@ -186,8 +186,6 @@ const testFunction = function(nodeChosen){
     if(node.coord === nodeChosen.coord && node.fCost > nodeChosen.fCost){
       openNodes = openNodes.filter((n, index)=>index !== i)
       openNodes.push(nodeChosen);
-      // Mark node green
-      document.getElementById(`${nodeChosen.coord}`).classList.add(openNodeClass);
     }})
     if(!(openNodes.some((node)=>node.coord === nodeChosen.coord))){
       openNodes.push(nodeChosen);
@@ -196,7 +194,7 @@ const testFunction = function(nodeChosen){
     }
 }
 const calcNeighborNodes = function(currentNode){
-
+try{
 
    const splitCoords = currentNode.coord.slice().split('-');
    const yCoord = splitCoords[0];
@@ -271,11 +269,13 @@ const calcNeighborNodes = function(currentNode){
    document.getElementById(currentNode.coord).classList.add(closedNodeClass);
    }
 
-  if(lowestCostNode.hCost !== 0) setTimeout(startFunction, 40);
+  if(lowestCostNode.hCost !== 0) setTimeout(startFunction, 30);
 
   if(lowestCostNode.hCost === 0) setTimeout(retraceSteps, 100);
 
-   
+  } catch(error){
+    console.log('no path found');
+  }
 }
 
 calcNeighborNodes(startNode);
