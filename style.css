@@ -48,6 +48,7 @@ body {
 .unselected_btn {
   background-color: white;
   transition: all 0.5s;
+  color: rgb(83, 83, 83);
 }
 
 #run_btn {
@@ -98,7 +99,7 @@ body {
 .space {
   border: 0.1px solid rgb(163, 163, 163);
   border-radius: 2px;
-  transition: all 0.4s;
+  transition: all 0.3s;
 }
 
 .space:hover {

@@ -133,6 +133,8 @@ class NodeCl {
   }
 }
 
+// Node Classes
+const spaceClass = "space";
 const endNodeClass = "end_node_class";
 const startNodeClass = "start_node_class";
 const openNodeClass = "open_node_class";
@@ -140,63 +142,25 @@ const closedNodeClass = "closed_node_class";
 const wallNodeClass = "wall_node_class";
 const finalPathNodeClass = "final_path_node_class";
 
+// Menu Buttons
+const runBtn = document.getElementById("run_btn");
+const clearBtn = document.getElementById("clear_btn");
+const startBtn = document.getElementById("start_point_btn");
+const endBtn = document.getElementById("end_point_btn");
+const wallBtn = document.getElementById("wall_point_btn");
+
+// Menu Button Classes
+const selectedBtnClass = "selected_btn";
+const unselectedBtnClass = "unselected_btn";
+
 let endNode = "21-14";
 const startNode = new NodeCl("3-8", 0, 0, "none");
 let lowestCostNode;
 
+let finalPathNodes = [];
 let openNodes = [];
 let closedNodes = [];
-let wallNodes = [
-  "10-1",
-  "10-2",
-  "10-3",
-  "10-4",
-  "10-5",
-  "10-6",
-  "10-7",
-  "10-8",
-  "10-10",
-  "10-11",
-  "10-12",
-  "10-13",
-  "10-14",
-  "10-15",
-  "10-16",
-  "10-17",
-  "10-18",
-  "10-19",
-  "10-20",
-  "10-21",
-  "10-22",
-  "10-23",
-  "10-24",
-  "10-25",
-  "12-3",
-  "12-4",
-  "12-5",
-  "12-6",
-  "12-7",
-  "12-8",
-  "12-9",
-  "12-10",
-  "12-11",
-  "12-12",
-  "12-13",
-  "12-14",
-  "12-15",
-  "15-1",
-  "15-2",
-  "15-5",
-  "15-6",
-  "15-7",
-  "20-2",
-  "20-3",
-  "20-4",
-  "20-5",
-  "20-6",
-  "20-7",
-  "20-8",
-];
+let wallNodes = [];
 
 document.getElementById(endNode).classList.add(endNodeClass);
 document.getElementById(startNode.coord).classList.add(startNodeClass);
@@ -219,7 +183,125 @@ const calcHCost = function (node) {
   return hCost;
 };
 /////////////////////////////////////////
-const startFunction = function () {
+const chooseStartPoint = function (e) {
+  if (
+    !e.target.classList.contains(startNodeClass) &&
+    !e.target.classList.contains(endNodeClass) &&
+    !e.target.classList.contains(wallNodeClass) &&
+    e.target.classList.contains(spaceClass)
+  ) {
+    document
+      .querySelector(`.${startNodeClass}`)
+      .classList.remove(startNodeClass);
+    e.target.classList.add(startNodeClass);
+    startNode.coord = e.target.id;
+  }
+};
+
+const startPointBegin = function () {
+  endBtn.classList.remove(selectedBtnClass);
+  endBtn.classList.add(unselectedBtnClass);
+  board.removeEventListener("click", chooseEndPoint);
+  wallBtn.classList.remove(selectedBtnClass);
+  wallBtn.classList.add(unselectedBtnClass);
+  board.removeEventListener("click", chooseWallPoint);
+  clearPathValues();
+  startBtn.classList.remove(unselectedBtnClass);
+  startBtn.classList.add(selectedBtnClass);
+  board.addEventListener("click", chooseStartPoint);
+};
+
+const chooseEndPoint = function (e) {
+  if (
+    !e.target.classList.contains(startNodeClass) &&
+    !e.target.classList.contains(endNodeClass) &&
+    !e.target.classList.contains(wallNodeClass) &&
+    e.target.classList.contains(spaceClass)
+  ) {
+    document.querySelector(`.${endNodeClass}`).classList.remove(endNodeClass);
+    e.target.classList.add(endNodeClass);
+    endNode = e.target.id;
+  }
+};
+
+const endPointBegin = function () {
+  startBtn.classList.remove(selectedBtnClass);
+  startBtn.classList.add(unselectedBtnClass);
+  board.removeEventListener("click", chooseStartPoint);
+  wallBtn.classList.remove(selectedBtnClass);
+  wallBtn.classList.add(unselectedBtnClass);
+  board.removeEventListener("click", chooseWallPoint);
+  clearPathValues();
+  endBtn.classList.remove(unselectedBtnClass);
+  endBtn.classList.add(selectedBtnClass);
+  board.addEventListener("click", chooseEndPoint);
+};
+
+const chooseWallPoint = function (e) {
+  if (
+    !e.target.classList.contains(startNodeClass) &&
+    !e.target.classList.contains(endNodeClass) &&
+    !e.target.classList.contains(wallNodeClass) &&
+    e.target.classList.contains(spaceClass)
+  ) {
+    e.target.classList.add(wallNodeClass);
+    wallNodes.push(e.target.id);
+  }
+};
+
+const wallPointBegin = function () {
+  endBtn.classList.remove(selectedBtnClass);
+  endBtn.classList.add(unselectedBtnClass);
+  board.removeEventListener("click", chooseEndPoint);
+  startBtn.classList.remove(selectedBtnClass);
+  startBtn.classList.add(unselectedBtnClass);
+  board.removeEventListener("click", chooseStartPoint);
+  clearPathValues();
+  wallBtn.classList.remove(unselectedBtnClass);
+  wallBtn.classList.add(selectedBtnClass);
+  board.addEventListener("click", chooseWallPoint);
+};
+
+const clearPathValues = function () {
+  openNodes.forEach((node) =>
+    document.getElementById(`${node.coord}`).classList.remove(openNodeClass)
+  );
+  openNodes = [];
+  closedNodes.forEach((node) =>
+    document.getElementById(`${node.coord}`).classList.remove(closedNodeClass)
+  );
+  closedNodes = [];
+  finalPathNodes.forEach((node) =>
+    document
+      .getElementById(`${node.coord}`)
+      .classList.remove(finalPathNodeClass)
+  );
+  finalPathNodes = [];
+};
+
+const clearAllValues = function () {
+  clearPathValues();
+  wallNodes.forEach((coord) =>
+    document.getElementById(`${coord}`).classList.remove(wallNodeClass)
+  );
+  wallNodes = [];
+};
+const initialCalcNodes = function () {
+  //Disable menu buttons while path finder is running
+  runBtn.removeEventListener("click", initialCalcNodes);
+  clearBtn.removeEventListener("click", clearAllValues);
+  startBtn.removeEventListener("click", startPointBegin);
+  board.removeEventListener("click", chooseStartPoint);
+  endBtn.removeEventListener("click", endPointBegin);
+  board.removeEventListener("click", chooseEndPoint);
+  wallBtn.removeEventListener("click", wallPointBegin);
+  board.removeEventListener("click", chooseWallPoint);
+
+  clearPathValues();
+  calcNeighborNodes(startNode);
+};
+
+const calcNodes = function () {
   calcNeighborNodes(lowestCostNode);
 };
 
@@ -236,14 +318,21 @@ const drawPath = function () {
       document
         .getElementById(lowestCostNode.coord)
         .classList.add(finalPathNodeClass);
+      finalPathNodes.push(lowestCostNode);
     }
     lowestCostNode = closedNodes.find(
       (node) => node.coord === lowestCostNode.prevNode
     );
   }
+  // Re-Enable menu buttons
+  runBtn.addEventListener("click", initialCalcNodes);
+  clearBtn.addEventListener("click", clearAllValues);
+  startBtn.addEventListener("click", startPointBegin);
+  endBtn.addEventListener("click", endPointBegin);
+  wallBtn.addEventListener("click", wallPointBegin);
 };
 
-const testFunction = function (nodeChosen) {
+const storeNode = function (nodeChosen) {
   openNodes.forEach((node, i) => {
     if (node.coord === nodeChosen.coord && node.fCost > nodeChosen.fCost) {
       openNodes = openNodes.filter((n, index) => index !== i);
@@ -277,7 +366,7 @@ const calcNeighborNodes = function (currentNode) {
         northHCost,
         currentNode.coord
       );
-      testFunction(northNeighbor);
+      storeNode(northNeighbor);
     }
     /////////////////////////////////////////////////////////////////// NORTH-EAST NEIGHBOR NODE
     const northEastCoord =
@@ -294,7 +383,7 @@ const calcNeighborNodes = function (currentNode) {
         northEastHCost,
         currentNode.coord
       );
-      testFunction(northEastNeighbor);
+      storeNode(northEastNeighbor);
     }
     /////////////////////////////////////////////////////////////////// EAST NEIGHBOR NODE
     const eastCoord = yCoord + "-" + (+xCoord + 1).toString();
@@ -310,7 +399,7 @@ const calcNeighborNodes = function (currentNode) {
         eastHCost,
         currentNode.coord
       );
-      testFunction(eastNeighbor);
+      storeNode(eastNeighbor);
     }
     /////////////////////////////////////////////////////////////////// SOUTH-EAST NEIGHBOR NODE
     const southEastCoord =
@@ -327,7 +416,7 @@ const calcNeighborNodes = function (currentNode) {
         southEastHCost,
         currentNode.coord
       );
-      testFunction(southEastNeighbor);
+      storeNode(southEastNeighbor);
     }
     /////////////////////////////////////////////////////////////////// SOUTH NEIGHBOR NODE
     const southCoord = (+yCoord - 1).toString() + "-" + +xCoord;
@@ -343,7 +432,7 @@ const calcNeighborNodes = function (currentNode) {
         southHCost,
         currentNode.coord
       );
-      testFunction(southNeighbor);
+      storeNode(southNeighbor);
     }
     /////////////////////////////////////////////////////////////////// SOUTH-WEST NEIGHBOR NODE
     const southWestCoord =
@@ -360,7 +449,7 @@ const calcNeighborNodes = function (currentNode) {
         southWestHCost,
         currentNode.coord
       );
-      testFunction(southWestNeighbor);
+      storeNode(southWestNeighbor);
     }
     /////////////////////////////////////////////////////////////////// WEST NEIGHBOR NODE
     const westCoord = yCoord + "-" + (+xCoord - 1).toString();
@@ -376,7 +465,7 @@ const calcNeighborNodes = function (currentNode) {
         westHCost,
         currentNode.coord
       );
-      testFunction(westNeighbor);
+      storeNode(westNeighbor);
     }
     /////////////////////////////////////////////////////////////////// NORTH-WEST NEIGHBOR NODE
     const northWestCoord =
@@ -393,7 +482,7 @@ const calcNeighborNodes = function (currentNode) {
         northWestHCost,
         currentNode.coord
       );
-      testFunction(northWestNeighbor);
+      storeNode(northWestNeighbor);
     }
 
     lowestCostNode = openNodes[0];
@@ -411,7 +500,7 @@ const calcNeighborNodes = function (currentNode) {
       document.getElementById(currentNode.coord).classList.add(closedNodeClass);
     }
 
-    if (lowestCostNode.hCost !== 0) setTimeout(startFunction, 30);
+    if (lowestCostNode.hCost !== 0) setTimeout(calcNodes, 30);
 
     if (lowestCostNode.hCost === 0) setTimeout(retraceSteps, 100);
   } catch (error) {
@@ -419,4 +508,8 @@ const calcNeighborNodes = function (currentNode) {
   }
 };
 
-calcNeighborNodes(startNode);
+runBtn.addEventListener("click", initialCalcNodes);
+clearBtn.addEventListener("click", clearAllValues);
+startBtn.addEventListener("click", startPointBegin);
+endBtn.addEventListener("click", endPointBegin);
+wallBtn.addEventListener("click", wallPointBegin);
