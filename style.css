@@ -1,9 +1,88 @@
+body {
+  font-family: "Yanone Kaffeesatz", sans-serif;
+}
+
 #board_wrapper {
   width: 30vw;
   height: 30vw;
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+#buttons_wrapper {
+  width: 100%;
+  height: 8vw;
+  background-color: none;
+  text-align: center;
+  color: rgb(70, 70, 70);
+}
+
+#top_buttons {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 100%;
+  font-size: 2vw;
+  box-shadow: 1px 1px 3px 0.5px grey;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#bottom_buttons {
+  display: grid;
+  grid-template-columns: 33.3% 33.3% 33.3%;
+  grid-template-rows: 100%;
+  font-size: 1.5vw;
+  margin-top: 10px;
+  box-shadow: 1px 1px 3px 0.5px grey;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.selected_btn {
+  background-color: rgb(83, 83, 83);
+  transition: all 0.5s;
+  color: white;
+}
+
+.unselected_btn {
+  background-color: white;
+  transition: all 0.5s;
+}
+
+#run_btn {
+  padding: 5%;
+  border: none;
+  border-radius: 3px;
+}
+
+.unselected_btn:hover {
+  background-color: rgb(83, 83, 83);
+  color: white;
+}
+
+#clear_btn {
+  padding: 5%;
+  border: none;
+  border-radius: 3px;
+}
+
+#start_point_btn {
+  padding: 8%;
+  border: none;
+  border-radius: 3px;
+}
+
+#end_point_btn {
+  padding: 8%;
+  border: none;
+  border-radius: 3px;
+}
+
+#wall_point_btn {
+  padding: 8%;
+  border: none;
+  border-radius: 3px;
 }
 
 #board {
@@ -13,12 +92,18 @@
   grid-template-columns: 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4%;
   grid-template-rows: 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4% 4%;
   box-shadow: 0px 20px 100px grey;
+  border-radius: 5px;
 }
 
 .space {
-  border: 0.1px solid rgb(129, 129, 129);
-  border-radius: 5px;
-  transition: all .4s;
+  border: 0.1px solid rgb(163, 163, 163);
+  border-radius: 2px;
+  transition: all 0.4s;
+}
+
+.space:hover {
+  background-color: grey;
+  cursor: pointer;
 }
 
 .end_node_class {
@@ -34,7 +119,24 @@
 }
 
 .closed_node_class {
-  background-color: red;
+  animation-name: closedNode;
+  animation-duration: 1s;
+  background-color: rgb(255, 0, 0);
+}
+
+@keyframes closedNode {
+  0% {
+    background-color: rgb(251, 255, 0);
+  }
+  25% {
+    background-color: rgb(255, 196, 0);
+  }
+  50% {
+    background-color: rgb(255, 123, 0);
+  }
+  100% {
+    background-color: rgb(255, 0, 0);
+  }
 }
 
 .wall_node_class {
@@ -42,5 +144,21 @@
 }
 
 .final_path_node_class {
-  background-color: darkorchid;
+  border: 1px solid grey;
+  animation-name: finalNode;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  background-color: rgb(97, 153, 255);
+}
+
+@keyframes finalNode {
+  0% {
+    background-color: rgb(97, 153, 255);
+  }
+  50% {
+    background-color: rgb(4, 90, 252);
+  }
+  100% {
+    background-color: rgb(97, 153, 255);
+  }
 }

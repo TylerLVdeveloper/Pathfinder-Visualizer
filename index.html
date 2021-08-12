@@ -5,12 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz&display=swap"
+      rel="stylesheet"
+    />
 
     <title>Pathfinder Visualizer</title>
   </head>
 
   <body>
     <div id="board_wrapper">
+      <div id="buttons_wrapper">
+        <div id="top_buttons">
+          <div id="run_btn" class="unselected_btn">Run</div>
+          <div id="clear_btn" class="unselected_btn">Clear</div>
+        </div>
+        <div id="bottom_buttons">
+          <div id="start_point_btn" class="selected_btn">Start Point</div>
+          <div id="end_point_btn" class="unselected_btn">End Point</div>
+          <div id="wall_point_btn" class="unselected_btn">Wall Points</div>
+        </div>
+      </div>
       <div id="board"></div>
     </div>
 
