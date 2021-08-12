@@ -39,6 +39,10 @@ body {
   cursor: pointer;
 }
 
+.disabled_btn {
+  opacity: 0.3;
+}
+
 .selected_btn {
   background-color: rgb(83, 83, 83);
   transition: all 0.5s;
@@ -98,7 +102,7 @@ body {
 
 .space {
   border: 0.1px solid rgb(163, 163, 163);
-  border-radius: 2px;
+  border-radius: 3px;
   transition: all 0.3s;
 }
 
@@ -161,5 +165,41 @@ body {
   }
   100% {
     background-color: rgb(97, 153, 255);
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  #board_wrapper {
+    width: 90vw;
+    height: 90vw;
+  }
+
+  #buttons_wrapper {
+    width: 100%;
+    height: 50vw;
+    background-color: none;
+    text-align: center;
+    color: rgb(70, 70, 70);
+  }
+
+  #top_buttons {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 100%;
+    font-size: 15vw;
+    box-shadow: 1px 1px 3px 0.5px grey;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  #bottom_buttons {
+    display: grid;
+    grid-template-columns: 33.3% 33.3% 33.3%;
+    grid-template-rows: 100%;
+    font-size: 6vw;
+    margin-top: 10px;
+    box-shadow: 1px 1px 3px 0.5px grey;
+    border-radius: 5px;
+    cursor: pointer;
   }
 }

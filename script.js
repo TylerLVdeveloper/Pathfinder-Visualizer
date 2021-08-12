@@ -1,5 +1,6 @@
 // Create Board
 const board = document.getElementById("board");
+const buttonsWrapper = document.getElementById("buttons_wrapper");
 
 const boardSpaces = [
   [
@@ -152,6 +153,7 @@ const wallBtn = document.getElementById("wall_point_btn");
 // Menu Button Classes
 const selectedBtnClass = "selected_btn";
 const unselectedBtnClass = "unselected_btn";
+const disabledBtnClass = "disabled_btn";
 
 let endNode = "21-14";
 const startNode = new NodeCl("3-8", 0, 0, "none");
@@ -249,6 +251,19 @@ const chooseWallPoint = function (e) {
   }
 };
 
+const chooseWallPointDrag = function (e) {
+  if (
+    e.buttons == 1 &&
+    !e.target.classList.contains(startNodeClass) &&
+    !e.target.classList.contains(endNodeClass) &&
+    !e.target.classList.contains(wallNodeClass) &&
+    e.target.classList.contains(spaceClass)
+  ) {
+    e.target.classList.add(wallNodeClass);
+    wallNodes.push(e.target.id);
+  }
+};
+
 const wallPointBegin = function () {
   endBtn.classList.remove(selectedBtnClass);
   endBtn.classList.add(unselectedBtnClass);
@@ -260,6 +275,8 @@ const wallPointBegin = function () {
   wallBtn.classList.remove(unselectedBtnClass);
   wallBtn.classList.add(selectedBtnClass);
   board.addEventListener("click", chooseWallPoint);
+  board.addEventListener("mouseover", chooseWallPointDrag);
+  board.addEventListener("touchmove", chooseWallPoint);
 };
 
 const clearPathValues = function () {
@@ -288,6 +305,13 @@ const clearAllValues = function () {
 };
 const initialCalcNodes = function () {
   //Disable menu buttons while path finder is running
+  buttonsWrapper.classList.add(disabledBtnClass);
+  endBtn.classList.remove(selectedBtnClass);
+  startBtn.classList.remove(selectedBtnClass);
+  wallBtn.classList.remove(selectedBtnClass);
+  endBtn.classList.add(unselectedBtnClass);
+  startBtn.classList.add(unselectedBtnClass);
+  wallBtn.classList.add(unselectedBtnClass);
   runBtn.removeEventListener("click", initialCalcNodes);
   clearBtn.removeEventListener("click", clearAllValues);
   startBtn.removeEventListener("click", startPointBegin);
@@ -296,6 +320,8 @@ const initialCalcNodes = function () {
   board.removeEventListener("click", chooseEndPoint);
   wallBtn.removeEventListener("click", wallPointBegin);
   board.removeEventListener("click", chooseWallPoint);
+  board.removeEventListener("mouseover", chooseWallPointDrag);
+  board.removeEventListener("touchmove", chooseWallPoint);
 
   clearPathValues();
   calcNeighborNodes(startNode);
@@ -325,6 +351,7 @@ const drawPath = function () {
     );
   }
   // Re-Enable menu buttons
+  buttonsWrapper.classList.remove(disabledBtnClass);
   runBtn.addEventListener("click", initialCalcNodes);
   clearBtn.addEventListener("click", clearAllValues);
   startBtn.addEventListener("click", startPointBegin);
@@ -505,6 +532,13 @@ const calcNeighborNodes = function (currentNode) {
     if (lowestCostNode.hCost === 0) setTimeout(retraceSteps, 100);
   } catch (error) {
     console.log("no path found");
+    // Re-Enable menu buttons
+    buttonsWrapper.classList.remove(disabledBtnClass);
+    runBtn.addEventListener("click", initialCalcNodes);
+    clearBtn.addEventListener("click", clearAllValues);
+    startBtn.addEventListener("click", startPointBegin);
+    endBtn.addEventListener("click", endPointBegin);
+    wallBtn.addEventListener("click", wallPointBegin);
   }
 };
 
